@@ -8,25 +8,27 @@ var React = require('react/addons')
   , LayoutFactory = require('../lib/LayoutFactory')
   ;
 
-var Component, Wrapped;
+var Wrapped;
 
-describe('Layout Factory', function () {
+var FancyComponent = React.createClass({
+  render: function () {
+    return (<div>Component</div>);
+  }
+});
 
-  beforeEach(function () {
+describe('Layout Factory Statics', function () {
 
-    FancyComponent = React.createClass({
-      render: function () {
-        return (<div>Component</div>);
-      }
-    });
+  it('should have a support getting layouts', function () {
+
+    Wrapped = LayoutFactory(FancyComponent);
+
+    expect(Wrapped.getLayouts()).toEqual([]);
 
   });
 
-  it('should have a static method for adding layouts', function () {
+  it('should have a support adding layouts', function () {
 
-    Wrapped = LayoutFactory(FancyComponent, {
-      protectedLayoutProps: ['blockedProp']
-    });
+    Wrapped = LayoutFactory(FancyComponent);
 
     Wrapped.addLayouts({
       a: { a: true },
@@ -38,18 +40,111 @@ describe('Layout Factory', function () {
 
   });
 
-  it('should do another thing', function () {
+  it('should have a static method for adding a single layout', function () {
 
     Wrapped = LayoutFactory(FancyComponent);
 
-    Wrapped.addLayouts({
-      a: { a: true }
-    });
+    Wrapped.addLayout('f', {})
 
-    var test = React.renderToString((<Wrapped layout='a'/>));
+    expect(Wrapped.getLayouts()).toEqual(['f']);
 
-    console.log(test);
+  });
+
+  it('should have a static methods for checking layout support', function () {
+
+    Wrapped = LayoutFactory(FancyComponent);
+
+    Wrapped.addLayout('f', {})
+
+    expect(Wrapped.hasLayout('f')).toEqual(true);
+    expect(Wrapped.hasLayout('g')).toEqual(false);
 
   });
 
 });
+
+describe('Display name', function () {
+  
+  it('should copy the display name of the component it wraps', function () {
+
+    Wrapped = LayoutFactory(FancyComponent);
+
+    expect(Wrapped.displayName).toEqual(FancyComponent.displayName);
+
+  });
+
+});
+
+describe('Error handline', function () {
+  
+  it('should throw an error if `addLayouts` is misused', function () {
+
+    Wrapped = LayoutFactory(FancyComponent, {
+      protectedLayoutProps: ['blockedProp']
+    });
+
+    // you cannot add array
+
+    expect(function () {
+      Wrapped.addLayouts([{a:1}])
+    }).toThrow();
+
+    // layout keys must have an object
+
+    expect(function () {
+      Wrapped.addLayouts({
+        a: 1
+      })
+    }).toThrow();
+
+    expect(function () {
+      Wrapped.addLayouts({
+        a: []
+      })
+    }).toThrow();
+
+    expect(function () {
+      Wrapped.addLayouts({
+        a: null
+      })
+    }).toThrow();
+
+  });
+
+  it('should throw an error if `addLayouts` is misused', function () {
+
+    Wrapped = LayoutFactory(FancyComponent, {
+      protectedLayoutProps: ['blockedProp']
+    });
+
+    expect(function () {
+      Wrapped.addLayout(null, {})
+    }).toThrow();
+
+    expect(function () {
+      Wrapped.addLayout(2, {})
+    }).toThrow();
+
+    expect(function () {
+      Wrapped.addLayout('hi')
+    }).toThrow();
+
+  });
+
+});
+
+
+// it('should do another thing', function () {
+
+//   Wrapped = LayoutFactory(FancyComponent);
+
+//   Wrapped.addLayouts({
+//     a: { a: true }
+//   });
+
+//   var test = React.renderToString((<Wrapped layout='a'/>));
+
+//   console.log(test);
+
+// });
+
