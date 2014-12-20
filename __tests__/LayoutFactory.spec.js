@@ -318,22 +318,26 @@ describe('Component lifecycle', function () {
       },
 
       render: function () {
-        return (<div>hello</div>);
+        return (<div>{this.props.children}</div>);
       }
 
     });
 
   });
 
-  it('should expand props on sate changes', function () {
+  it('should expand props on parent state changes', function () {
 
-    Wrapped = LayoutFactory(StatefulComponent);
+    Wrapped = LayoutFactory(FancyComponent);
     Wrapped.addLayout('a', {a: true});
 
     var element = <Wrapped layout='a' myProp='cool'/>;
-    var rendered = TestUtils.renderIntoDocument((<Wrapped layout='a' myProp='cool'/>));
+    var rendered = TestUtils.renderIntoDocument((
+      <StatefulComponent>
+        <Wrapped layout='a' myProp='cool'/>
+      </StatefulComponent>
+    ));
     
-    var node = TestUtils.findRenderedComponentWithType(rendered, StatefulComponent);
+    var node = TestUtils.findRenderedComponentWithType(rendered, FancyComponent);
 
     expect(node.props).toEqual({
       layout: 'a',
@@ -341,11 +345,9 @@ describe('Component lifecycle', function () {
       myProp: 'cool'
     });
 
-    emitter.emit('change', 'newState');
+    emitter.emit('change', 'newState'); // see if it survives after parent re-renders
 
-    var node = TestUtils.findRenderedComponentWithType(rendered, StatefulComponent);
-
-    expect(node.state.idx).toEqual('newState');
+    var node = TestUtils.findRenderedComponentWithType(rendered, FancyComponent);
 
     expect(node.props).toEqual({
       layout: 'a',
