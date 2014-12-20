@@ -34,22 +34,9 @@ describe('Layout Factory', function () {
       c: { c: true }
     });
 
-    Wrapped.addLayouts([
-      {
-        meta: {name: 'd'},
-        props: { d: true }
-      },{
-        meta: {name: 'e'},
-        props: { e: true }
-      },{
-        meta: {name: 'f'},
-        props: { f: true }
-      }
-    ]);
+    // console.log(Wrapped.getLayouts());
 
-    console.log(Wrapped.getLayouts());
-
-    var test = React.renderToString((<Wrapped layout='abc'/>));
+    var test = React.renderToString((<Wrapped layout='c'/>));
 
     console.log(test);
 
