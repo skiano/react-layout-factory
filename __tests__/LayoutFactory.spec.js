@@ -34,9 +34,19 @@ describe('Layout Factory', function () {
       c: { c: true }
     });
 
-    // console.log(Wrapped.getLayouts());
+    expect(Wrapped.getLayouts()).toEqual(['a','b','c']);
 
-    var test = React.renderToString((<Wrapped layout='c'/>));
+  });
+
+  it('should do another thing', function () {
+
+    Wrapped = LayoutFactory(FancyComponent);
+
+    Wrapped.addLayouts({
+      a: { a: true }
+    });
+
+    var test = React.renderToString((<Wrapped layout='a'/>));
 
     console.log(test);
 
