@@ -38,15 +38,15 @@ Now, this obviously flexible, but if you want to use this component in a visual 
 
 With ``react-layout-factory``, you can eaisily specify these shapes as layouts, and you get back a new component that translates the layout names into the specific options you need.
 
-    var SpecificShapeComponents = layoutFactory(AnyShapeComponent);
+    var SpecificShapesComponent = layoutFactory(AnyShapeComponent);
     
-    SpecificShapeComponent.addLayouts({
+    SpecificShapesComponent.addLayouts({
       large: {width: 1200, height: 800},
       medium: {width: 900, height: 600},
       small: {width: 600, height: 400}
     });
     
-    var myElement = React.createElement(SpecificShapeComponents, {
+    var myElement = React.createElement(SpecificShapesComponent, {
       message: 'I can use a set of known widths',
       layout: 'medium' // width will be 900 and height will be 600
     });
