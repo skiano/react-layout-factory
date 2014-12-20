@@ -22,13 +22,35 @@ describe('Layout Factory', function () {
 
   });
 
-  it('should work', function () {
+  it('should have a static method for adding layouts', function () {
 
     Wrapped = LayoutFactory(Component, {});
-    
-    var test = React.renderToString((<Wrapped/>));
 
-    console.log(test);
+    Wrapped.addLayouts({
+      a: {},
+      b: {},
+      c: {}
+    });
+
+    Wrapped.addLayouts([
+      {
+        meta: {name: 'd'},
+        props: {}
+      },{
+        meta: {name: 'e'},
+        props: {}
+      },{
+        meta: {name: 'f'},
+        props: {}
+      }
+    ]);
+
+    console.log(Wrapped.getLayouts());
+
+
+    // var test = React.renderToString((<Wrapped/>));
+
+    
 
   });
 

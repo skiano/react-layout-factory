@@ -8,7 +8,9 @@
   },
   "jest": {
     "scriptPreprocessor": "<rootDir>/preprocessor.js",
-    "unmockedModulePathPatterns": ["<rootDir>/node_modules/react"]
+    "unmockedModulePathPatterns": [
+      "<rootDir>/node_modules/*"
+    ]
   },
   "repository": {
     "type": "git",
@@ -32,5 +34,8 @@
     "jest-cli": "^0.2.1",
     "react": "^0.12.2",
     "react-tools": "^0.12.2"
+  },
+  "dependencies": {
+    "lodash": "^2.4.1"
   }
 }
