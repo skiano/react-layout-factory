@@ -40,7 +40,7 @@ With ``react-layout-factory``, you can eaisily specify these shapes as layouts, 
 
     var SpecificShapeComponents = layoutFactory(AnyShapeComponent);
     
-    SpecificShapeComponents.addLayouts({
+    SpecificShapeComponent.addLayouts({
       large: {width: 1200, height: 800},
       medium: {width: 900, height: 600},
       small: {width: 600, height: 400}
