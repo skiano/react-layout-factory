@@ -7,7 +7,7 @@ This module attempts alleviate that prblem by providing a way to create __named 
 
 For example, imagine you had something like the folowing (granted, a silly example)
 
-    var InfiniteOptions = React.createClass({
+    var InfiniteOptionsComponent = React.createClass({
 
       propTypes: {
         width: React.PropTypes.number,
@@ -25,7 +25,7 @@ For example, imagine you had something like the folowing (granted, a silly examp
 
     });
     
-    var myElement = React.createElement(InfiniteOptions, {
+    var myElement = React.createElement(InfiniteOptionsComponent, {
       message: 'I can do any width',
       width: 331
     });
@@ -35,17 +35,21 @@ Now, this is great in terms of flexibility, but if you want to use this componen
 
 With ``react-layout-factory``, you can specify these layouts and assign them to specific values for the height property. This looks something like the following.
 
-    var LimitedOptions = layoutFactory(InfiniteOptions);
+    var LimitedOptionsComponent = layoutFactory(InfiniteOptionsComponent);
     
-    LimitedOptions.addLayouts({
+    LimitedOptionsComponent.addLayouts({
       extrawide: {width: 1260},
       wide: {width: 720},
       narrow: {width: 300}
     });
     
-    var myElement = React.createElement(InfiniteOptions, {
+    var myElement = React.createElement(LimitedOptionsComponent, {
       message: 'I can use a set of known widths',
       layout: 'wide' // width will be 720
     });
+    
+By approaching it this way, you have a way to turn a very generic component into a highly configurable one
+
+
 
 
