@@ -20,7 +20,7 @@ For example, imagine you had something like the folowing:
           children: this.props.message
           style: {
             height: this.props.height,
-            width: this.props.width, // could be any height you want
+            width: this.props.width,
           }
         });
       }
