@@ -36,7 +36,7 @@ For example, imagine you had something like the folowing:
 
 Now, this obviously flexible, but if you want to use this component in a visual system, you might want to limit its use to a specific set of shapes, for instance ``large``, ``medium``, and `small`.
 
-With ``react-layout-factory``, you can eaisily specify these shapes as layouts, and get back a new component, that adds support for your new layouts.
+With ``react-layout-factory``, you can eaisily specify these shapes as layouts, and you get back a new component that translates the layout names into the specific options you need.
 
     var SpecificShapeComponents = layoutFactory(AnyShapeComponent);
     
