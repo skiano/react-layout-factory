@@ -1,7 +1,7 @@
 {
   "name": "react-layout-factory",
   "version": "0.0.0",
-  "description": "A factory for creating React layout mixins",
+  "description": "A factory for creating React components that support named combinations of props",
   "main": "lib/LayoutFactory.js",
   "scripts": {
     "test": "jest"
@@ -19,7 +19,8 @@
   "keywords": [
     "React",
     "Layout",
-    "Mixin"
+    "Configuration",
+    "modularity"
   ],
   "author": "Greg Skiano",
   "license": "MIT",
