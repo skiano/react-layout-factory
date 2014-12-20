@@ -1,0 +1,36 @@
+{
+  "name": "react-layout-factory",
+  "version": "0.0.0",
+  "description": "A factory for creating React layout mixins",
+  "main": "lib/LayoutFactory.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "jest": {
+    "scriptPreprocessor": "<rootDir>/preprocessor.js",
+    "unmockedModulePathPatterns": ["<rootDir>/node_modules/react"]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/skiano/react-layout-factory.git"
+  },
+  "keywords": [
+    "React",
+    "Layout",
+    "Mixin"
+  ],
+  "author": "Greg Skiano",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/skiano/react-layout-factory/issues"
+  },
+  "homepage": "https://github.com/skiano/react-layout-factory",
+  "peerDependencies": {
+    "react": "^0.12.2"
+  },
+  "devDependencies": {
+    "jest-cli": "^0.2.1",
+    "react": "^0.12.2",
+    "react-tools": "^0.12.2"
+  }
+}
