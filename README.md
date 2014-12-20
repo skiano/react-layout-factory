@@ -11,6 +11,7 @@ For example, imagine you had something like the folowing (granted, a silly examp
 
       propTypes: {
         width: React.PropTypes.number,
+        height: React.PropTypes.number,
         message: React.PropTypes.string
       },
 
@@ -18,6 +19,7 @@ For example, imagine you had something like the folowing (granted, a silly examp
         return React.createElement('div', {
           children: this.props.message
           style: {
+            height: this.props.height,
             width: this.props.width, // could be any height you want
           }
         });
@@ -26,26 +28,27 @@ For example, imagine you had something like the folowing (granted, a silly examp
     });
     
     var myElement = React.createElement(InfiniteOptionsComponent, {
-      message: 'I can do any width',
-      width: 331
+      message: 'I can do any width and height',
+      width: 331,
+      height: 901
     });
     
 
-Now, this is great in terms of flexibility, but if you want to use this component in a visual system, you might want to limit its use to a specific set of heights, for instance ``extrawide``, ``wide``, and `narrow`.
+Now, this is great in terms of flexibility, but if you want to use this component in a visual system, you might want to limit its use to a specific set of heights, for instance ``large``, ``medium``, and `small`.
 
 With ``react-layout-factory``, you can specify these layouts and assign them to specific values for the height property. This looks something like the following.
 
     var LimitedOptionsComponent = layoutFactory(InfiniteOptionsComponent);
     
     LimitedOptionsComponent.addLayouts({
-      extrawide: {width: 1260},
-      wide: {width: 720},
-      narrow: {width: 300}
+      large: {width: 1200, height: 800},
+      medium: {width: 900, height: 600},
+      small: {width: 600, height: 400}
     });
     
     var myElement = React.createElement(LimitedOptionsComponent, {
       message: 'I can use a set of known widths',
-      layout: 'wide' // width will be 720
+      layout: 'medium' // width will be 900 and height will be 600
     });
     
 By approaching it this way, you have a way to turn a very generic component into a highly configurable one
