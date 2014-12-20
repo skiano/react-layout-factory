@@ -120,7 +120,7 @@ describe('Component displayName', function () {
 
 describe('Error handling', function () {
   
-  it('should throw an error if `addLayouts` is misused', function () {
+  it('should throw an error if `addLayouts()` is misused', function () {
 
     Wrapped = LayoutFactory(FancyComponent, {
       protectedLayoutProps: ['blockedProp']
@@ -142,19 +142,13 @@ describe('Error handling', function () {
 
     expect(function () {
       Wrapped.addLayouts({
-        a: []
-      })
-    }).toThrow();
-
-    expect(function () {
-      Wrapped.addLayouts({
         a: null
       })
     }).toThrow();
 
   });
 
-  it('should throw an error if `addLayouts` is misused', function () {
+  it('should throw an error if `addLayout()` is misused', function () {
 
     Wrapped = LayoutFactory(FancyComponent, {
       protectedLayoutProps: ['blockedProp']
@@ -178,9 +172,118 @@ describe('Error handling', function () {
 
 describe('Prop expansion', function () {
 
-  // test how props get created from layouts
+  it('should expand the layout to props for the component', function () {
 
-  // test protectedlayout props
+    Wrapped = LayoutFactory(FancyComponent);
+
+    Wrapped.addLayout('a', { a: true, other: 3 });
+
+    var test = TestUtils.renderIntoDocument((<Wrapped layout='a' myProp='test'/>));
+    var rendered = TestUtils.findRenderedComponentWithType(test, FancyComponent);
+
+    expect(rendered.props).toEqual({
+      myProp: 'test',
+      a: true,
+      other: 3
+    });
+
+  });
+
+  it('should prefer a user prop to the layout prop if the prop is not blocked', function () {
+
+    Wrapped = LayoutFactory(FancyComponent);
+
+    Wrapped.addLayout('a', { a: true, other: 3 });
+
+    var test = TestUtils.renderIntoDocument((<Wrapped layout='a' other={1} a='override'/>));
+    var rendered = TestUtils.findRenderedComponentWithType(test, FancyComponent);
+
+    expect(rendered.props).toEqual({
+      a: 'override',
+      other: 1
+    });
+
+  });
+
+  it('should support restricint props to the layout', function () {
+
+    Wrapped = LayoutFactory(FancyComponent, {
+      protectedLayoutProps: ['a', 'other']
+    });
+
+    Wrapped.addLayout('a', { a: true, other: 3 });
+
+    var test = TestUtils.renderIntoDocument((<Wrapped layout='a' other={1} a='override'/>));
+    var rendered = TestUtils.findRenderedComponentWithType(test, FancyComponent);
+
+    expect(rendered.props).toEqual({
+      a: true,
+      other: 3
+    });
+
+  });
+
+  it('should support `smart` layouts', function () {
+
+    var smartLayout = jest.genMockFn().mockImpl(function (props) {
+      return props.useLayout;
+    });
+
+    Wrapped = LayoutFactory(FancyComponent);
+
+    Wrapped.addLayout('a', { a: true});
+    Wrapped.addLayout('b', { b: true});
+    Wrapped.addLayout('smart', smartLayout);
+
+    var test = TestUtils.renderIntoDocument((<Wrapped layout='smart' useLayout='a'/>));
+    var rendered = TestUtils.findRenderedComponentWithType(test, FancyComponent);
+
+    expect(rendered.props).toEqual({
+      a: true,
+      useLayout: 'a'
+    });
+
+    var test = TestUtils.renderIntoDocument((<Wrapped layout='smart' useLayout='b'/>));
+    var rendered = TestUtils.findRenderedComponentWithType(test, FancyComponent);
+
+    expect(rendered.props).toEqual({
+      b: true,
+      useLayout: 'b'
+    });
+
+  });
+
+  it('should pass the props through if layout is missing', function () {
+
+    Wrapped = LayoutFactory(FancyComponent);
+
+    var test = TestUtils.renderIntoDocument((<Wrapped myProp='cool'/>));
+    var rendered = TestUtils.findRenderedComponentWithType(test, FancyComponent);
+
+    expect(rendered.props).toEqual({
+      myProp: 'cool'
+    });
+
+  });
+
+  it('should pass the props through if smart layout returns missing layout', function () {
+
+    Wrapped = LayoutFactory(FancyComponent);
+
+    Wrapped.addLayout('smart', function (props) {
+      return 'nonExistant';
+    });
+
+    var test = TestUtils.renderIntoDocument((<Wrapped layout='smart' myProp='cool'/>));
+    var rendered = TestUtils.findRenderedComponentWithType(test, FancyComponent);
+    
+    expect(rendered.props).toEqual({
+      myProp: 'cool',
+      layout: 'smart'
+    });
+
+  });
+
 
 });
 
