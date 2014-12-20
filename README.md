@@ -7,7 +7,7 @@ This module attempts alleviate that prblem by providing a way to create __named 
 
 For example, imagine you had something like the folowing:
 
-    var InfiniteOptionsComponent = React.createClass({
+    var AnyShapeComponent = React.createClass({
 
       propTypes: {
         width: React.PropTypes.number,
@@ -27,26 +27,26 @@ For example, imagine you had something like the folowing:
 
     });
     
-    var myElement = React.createElement(InfiniteOptionsComponent, {
+    var myElement = React.createElement(AnyShapeComponent, {
       message: 'I can do any width and height',
       width: 331,
       height: 901
     });
     
 
-Now, this is great in terms of flexibility, but if you want to use this component in a visual system, you might want to limit its use to a specific set of heights, for instance ``large``, ``medium``, and `small`.
+Now, this obviously flexible, but if you want to use this component in a visual system, you might want to limit its use to a specific set of shapes, for instance ``large``, ``medium``, and `small`.
 
 With ``react-layout-factory``, you can specify these layouts and assign them to specific values for the height property. This looks something like the following.
 
-    var LimitedOptionsComponent = layoutFactory(InfiniteOptionsComponent);
+    var SpecificShapeComponents = layoutFactory(AnyShapeComponent);
     
-    LimitedOptionsComponent.addLayouts({
+    SpecificShapeComponents.addLayouts({
       large: {width: 1200, height: 800},
       medium: {width: 900, height: 600},
       small: {width: 600, height: 400}
     });
     
-    var myElement = React.createElement(LimitedOptionsComponent, {
+    var myElement = React.createElement(SpecificShapeComponents, {
       message: 'I can use a set of known widths',
       layout: 'medium' // width will be 900 and height will be 600
     });
