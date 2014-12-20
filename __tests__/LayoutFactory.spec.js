@@ -16,17 +16,25 @@ var FancyComponent = React.createClass({
   }
 });
 
-describe('Layout Factory Statics', function () {
+describe('Component Statics', function () {
 
-  it('should have a support getting layouts', function () {
+  it('should support statics.getLayouts()', function () {
 
     Wrapped = LayoutFactory(FancyComponent);
 
-    expect(Wrapped.getLayouts()).toEqual([]);
+    expect(Wrapped.getLayouts()).toEqual({});
 
   });
 
-  it('should have a support adding layouts', function () {
+  it('should support statics.getLayoutNames()', function () {
+
+    Wrapped = LayoutFactory(FancyComponent);
+
+    expect(Wrapped.getLayoutNames()).toEqual([]);
+
+  });
+
+  it('should support statics.addLayouts()', function () {
 
     Wrapped = LayoutFactory(FancyComponent);
 
@@ -36,21 +44,35 @@ describe('Layout Factory Statics', function () {
       c: { c: true }
     });
 
-    expect(Wrapped.getLayouts()).toEqual(['a','b','c']);
+    expect(Wrapped.getLayoutNames()).toEqual(['a','b','c']);
+    expect(Wrapped.getLayouts()).toEqual({
+      a: {
+        meta: {name: 'a'},
+        props: {a: true}
+      },
+      b: {
+        meta: {name: 'b'},
+        props: {b: true}
+      },
+      c: {
+        meta: {name: 'c'},
+        props: {c: true}
+      }
+    });
 
   });
 
-  it('should have a static method for adding a single layout', function () {
+  it('should support statics.addLayout()', function () {
 
     Wrapped = LayoutFactory(FancyComponent);
 
     Wrapped.addLayout('f', {})
 
-    expect(Wrapped.getLayouts()).toEqual(['f']);
+    expect(Wrapped.getLayoutNames()).toEqual(['f']);
 
   });
 
-  it('should have a static methods for checking layout support', function () {
+  it('should support statics.hasLayout()', function () {
 
     Wrapped = LayoutFactory(FancyComponent);
 
@@ -61,9 +83,30 @@ describe('Layout Factory Statics', function () {
 
   });
 
+  it('should support statics.getLayout()', function () {
+
+    Wrapped = LayoutFactory(FancyComponent);
+
+    var layout = {
+      meta: {},
+      props: {}
+    }
+
+    Wrapped.addLayout('f', layout);
+
+    var f = Wrapped.getLayout('f');
+
+    // make sure it still looks the smae
+    expect(f).toEqual(layout);
+
+    // make sure name is copied to layout.meta
+    expect(f.meta.name).toEqual('f');
+
+  });
+
 });
 
-describe('Display name', function () {
+describe('Component displayName', function () {
   
   it('should copy the display name of the component it wraps', function () {
 
@@ -75,7 +118,7 @@ describe('Display name', function () {
 
 });
 
-describe('Error handline', function () {
+describe('Error handling', function () {
   
   it('should throw an error if `addLayouts` is misused', function () {
 
@@ -133,18 +176,29 @@ describe('Error handline', function () {
 
 });
 
+describe('Prop expansion', function () {
 
-// it('should do another thing', function () {
+  // test how props get created from layouts
 
-//   Wrapped = LayoutFactory(FancyComponent);
+  // test protectedlayout props
 
-//   Wrapped.addLayouts({
-//     a: { a: true }
-//   });
+});
 
-//   var test = React.renderToString((<Wrapped layout='a'/>));
+describe('Component lifecycle', function () {
 
-//   console.log(test);
+  // it('should do another thing', function () {
 
-// });
+  //   Wrapped = LayoutFactory(FancyComponent);
+
+  //   Wrapped.addLayouts({
+  //     a: { a: true }
+  //   });
+
+  //   var test = React.renderToString((<Wrapped layout='a'/>));
+
+  //   console.log(test);
+
+  // });
+
+});
 
