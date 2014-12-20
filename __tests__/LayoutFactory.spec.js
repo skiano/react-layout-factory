@@ -14,7 +14,7 @@ describe('Layout Factory', function () {
 
   beforeEach(function () {
 
-    Component = React.createClass({
+    FancyComponent = React.createClass({
       render: function () {
         return (<div>Component</div>);
       }
@@ -24,33 +24,34 @@ describe('Layout Factory', function () {
 
   it('should have a static method for adding layouts', function () {
 
-    Wrapped = LayoutFactory(Component, {});
+    Wrapped = LayoutFactory(FancyComponent, {
+      protectedLayoutProps: ['blockedProp']
+    });
 
     Wrapped.addLayouts({
-      a: {},
-      b: {},
-      c: {}
+      a: { a: true },
+      b: { b: true },
+      c: { c: true }
     });
 
     Wrapped.addLayouts([
       {
         meta: {name: 'd'},
-        props: {}
+        props: { d: true }
       },{
         meta: {name: 'e'},
-        props: {}
+        props: { e: true }
       },{
         meta: {name: 'f'},
-        props: {}
+        props: { f: true }
       }
     ]);
 
     console.log(Wrapped.getLayouts());
 
+    var test = React.renderToString((<Wrapped layout='abc'/>));
 
-    // var test = React.renderToString((<Wrapped/>));
-
-    
+    console.log(test);
 
   });
 
