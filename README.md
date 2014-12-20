@@ -3,7 +3,7 @@
 
 Specifying options on a react component can help produce very flexible and reusable code, but as options become more complicated or plentiful, the permutations and variations of options can grow beyond what makes sense for a design.
 
-This module attempts to alleviate that prblem by providing a way to name certain sets of component options that you want to be reusable without having to restrict the flexibility of the core component.
+This module attempts alleviates that prblem by providing a way to create __named Layouts__ for a component, that represend specific uses of any set of properties you want to limit. This way you can limit the uses of a component without destroying its potential flexibility.
 
 For example, imagine you had something like the folowing (granted, it is a bit exaggerated)
 
@@ -11,7 +11,7 @@ For example, imagine you had something like the folowing (granted, it is a bit e
     var InfiniteOptions = React.createClass({
 
       propTypes: {
-        size: React.PropTypes.number
+        height: React.PropTypes.number
       },
 
       render: function () {
