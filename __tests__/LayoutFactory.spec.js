@@ -2,8 +2,10 @@
 /** @jsx React.DOM */
 
 jest.dontMock('../lib/LayoutFactory');
+jest.dontMock('events');
 
 var React = require('react/addons')
+  , EventEmitter = require('events').EventEmitter
   , TestUtils = React.addons.TestUtils
   , LayoutFactory = require('../lib/LayoutFactory')
   ;
@@ -289,24 +291,69 @@ describe('Prop expansion', function () {
 
   });
 
-
 });
 
 describe('Component lifecycle', function () {
 
-  // it('should do another thing', function () {
+  var StatefulComponent;
 
-  //   Wrapped = LayoutFactory(FancyComponent);
+  var emitter = new EventEmitter();
 
-  //   Wrapped.addLayouts({
-  //     a: { a: true }
-  //   });
+  beforeEach(function () {
 
-  //   var test = React.renderToString((<Wrapped layout='a'/>));
+    StatefulComponent = React.createClass({
 
-  //   console.log(test);
+      changeState: function (v) {
+        this.setState({
+          idx: v
+        });
+      },
 
-  // });
+      componentDidMount: function () {
+        emitter.on('change', this.changeState)
+      },
+
+      componentWillUnmount: function () {
+        emitter.removeListener('change', this.changeState)
+      },
+
+      render: function () {
+        return (<div>hello</div>);
+      }
+
+    });
+
+  });
+
+  it('should expand props on sate changes', function () {
+
+    Wrapped = LayoutFactory(StatefulComponent);
+    Wrapped.addLayout('a', {a: true});
+
+    var element = <Wrapped layout='a' myProp='cool'/>;
+    var rendered = TestUtils.renderIntoDocument((<Wrapped layout='a' myProp='cool'/>));
+    
+    var node = TestUtils.findRenderedComponentWithType(rendered, StatefulComponent);
+
+    expect(node.props).toEqual({
+      layout: 'a',
+      a: true,
+      myProp: 'cool'
+    });
+
+    emitter.emit('change', 'newState');
+
+    var node = TestUtils.findRenderedComponentWithType(rendered, StatefulComponent);
+
+    expect(node.state.idx).toEqual('newState');
+
+    expect(node.props).toEqual({
+      layout: 'a',
+      a: true,
+      myProp: 'cool'
+    });
+
+  });
 
 });
 
