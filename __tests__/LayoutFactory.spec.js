@@ -182,6 +182,7 @@ describe('Prop expansion', function () {
     var rendered = TestUtils.findRenderedComponentWithType(test, FancyComponent);
 
     expect(rendered.props).toEqual({
+      layout: 'a',
       myProp: 'test',
       a: true,
       other: 3
@@ -199,6 +200,7 @@ describe('Prop expansion', function () {
     var rendered = TestUtils.findRenderedComponentWithType(test, FancyComponent);
 
     expect(rendered.props).toEqual({
+      layout: 'a',
       a: 'override',
       other: 1
     });
@@ -217,6 +219,7 @@ describe('Prop expansion', function () {
     var rendered = TestUtils.findRenderedComponentWithType(test, FancyComponent);
 
     expect(rendered.props).toEqual({
+      layout: 'a',
       a: true,
       other: 3
     });
@@ -239,6 +242,7 @@ describe('Prop expansion', function () {
     var rendered = TestUtils.findRenderedComponentWithType(test, FancyComponent);
 
     expect(rendered.props).toEqual({
+      layout: 'a',
       a: true,
       useLayout: 'a'
     });
@@ -247,6 +251,7 @@ describe('Prop expansion', function () {
     var rendered = TestUtils.findRenderedComponentWithType(test, FancyComponent);
 
     expect(rendered.props).toEqual({
+      layout: 'b',
       b: true,
       useLayout: 'b'
     });
@@ -279,7 +284,7 @@ describe('Prop expansion', function () {
     
     expect(rendered.props).toEqual({
       myProp: 'cool',
-      layout: 'smart'
+      layout: 'nonExistant'
     });
 
   });
