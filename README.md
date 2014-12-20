@@ -47,7 +47,7 @@ With ``react-layout-factory``, you can eaisily specify these shapes as layouts, 
     });
     
     var myElement = React.createElement(SpecificShapesComponent, {
-      message: 'I can use a set of known widths',
+      message: 'I can draw from a meaningful set of shapes',
       layout: 'medium'
     });
     
