@@ -1,6 +1,6 @@
 {
   "name": "react-layout-factory",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "A factory for creating React components that support named combinations of props",
   "main": "lib/LayoutFactory.js",
   "scripts": {
