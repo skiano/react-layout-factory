@@ -48,8 +48,10 @@ With ``react-layout-factory``, you can eaisily specify these shapes as layouts, 
     
     var myElement = React.createElement(SpecificShapesComponent, {
       message: 'I can use a set of known widths',
-      layout: 'medium' // width will be 900 and height will be 600
+      layout: 'medium'
     });
+    
+     // returns AnyShapeComponent that is 600 x 900
     
 By approaching it this way, you have a way to turn a very generic component into a highly configurable one
 
