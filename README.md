@@ -7,32 +7,33 @@ This module attempts alleviate that prblem by providing a way to create __named 
 
 For example, imagine you had something like the folowing:
 
-    var AnyShapeComponent = React.createClass({
+```js
+var AnyShapeComponent = React.createClass({
 
-      propTypes: {
-        width: React.PropTypes.number,
-        height: React.PropTypes.number,
-        message: React.PropTypes.string
-      },
+  propTypes: {
+    width: React.PropTypes.number,
+    height: React.PropTypes.number,
+    message: React.PropTypes.string
+  },
 
-      render: function () {
-        return React.createElement('div', {
-          children: this.props.message
-          style: {
-            height: this.props.height,
-            width: this.props.width,
-          }
-        });
+  render: function () {
+    return React.createElement('div', {
+      children: this.props.message
+      style: {
+        height: this.props.height,
+        width: this.props.width,
       }
+    });
+  }
 
-    });
-    
-    var myElement = React.createElement(AnyShapeComponent, {
-      message: 'I can do any width and height',
-      width: 331,
-      height: 901
-    });
-    
+});
+
+var myElement = React.createElement(AnyShapeComponent, {
+  message: 'I can do any width and height',
+  width: 331,
+  height: 901
+});
+```    
 
 Now, this obviously flexible, but if you want to use this component in a visual system, you might want to limit its use to a specific set of shapes, for instance ``large``, ``medium``, and `small`.
 
