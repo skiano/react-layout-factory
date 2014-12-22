@@ -2,10 +2,8 @@
 /** @jsx React.DOM */
 
 jest.dontMock('../lib/LayoutFactory');
-jest.dontMock('events');
 
 var React = require('react/addons')
-  , EventEmitter = require('events').EventEmitter
   , TestUtils = React.addons.TestUtils
   , LayoutFactory = require('../lib/LayoutFactory')
   ;
@@ -295,36 +293,6 @@ describe('Prop expansion', function () {
 
 describe('Component lifecycle', function () {
 
-  var StatefulComponent;
-
-  var emitter = new EventEmitter();
-
-  beforeEach(function () {
-
-    StatefulComponent = React.createClass({
-
-      changeState: function (v) {
-        this.setState({
-          idx: v
-        });
-      },
-
-      componentDidMount: function () {
-        emitter.on('change', this.changeState)
-      },
-
-      componentWillUnmount: function () {
-        emitter.removeListener('change', this.changeState)
-      },
-
-      render: function () {
-        return (<div>{this.props.children}</div>);
-      }
-
-    });
-
-  });
-
   it('should expand props on parent state changes', function () {
 
     Wrapped = LayoutFactory(FancyComponent);
@@ -332,9 +300,7 @@ describe('Component lifecycle', function () {
 
     var element = <Wrapped layout='a' myProp='cool'/>;
     var rendered = TestUtils.renderIntoDocument((
-      <StatefulComponent>
-        <Wrapped layout='a' myProp='cool'/>
-      </StatefulComponent>
+      <Wrapped layout='a' myProp='cool'/>
     ));
     
     var node = TestUtils.findRenderedComponentWithType(rendered, FancyComponent);
@@ -345,14 +311,15 @@ describe('Component lifecycle', function () {
       myProp: 'cool'
     });
 
-    emitter.emit('change', 'newState'); // see if it survives after parent re-renders
-
-    var node = TestUtils.findRenderedComponentWithType(rendered, FancyComponent);
+    rendered.setProps({
+      layout: 'a',
+      myProp: 'coolB'
+    })
 
     expect(node.props).toEqual({
       layout: 'a',
       a: true,
-      myProp: 'cool'
+      myProp: 'coolB'
     });
 
   });
